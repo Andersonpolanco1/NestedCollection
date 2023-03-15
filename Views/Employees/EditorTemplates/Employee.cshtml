@@ -1,0 +1,18 @@
+﻿@model PruebaAyu.Models.Employee
+@Html.HiddenFor(p => p.Id)
+
+<p>
+    <label>Name</label>
+    @Html.TextBoxFor(e => e.Name)
+</p>
+
+<p>
+    <label>Salary</label>
+    @Html.TextBoxFor(e => e.Salary)
+</p>
+
+<p>
+    <div id="phonenumbers">
+        @Html.EditorFor(e => e.Phones)
+    </div>
+</p>

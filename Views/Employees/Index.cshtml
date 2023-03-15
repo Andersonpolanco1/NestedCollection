@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "New";
+}
+<h2>Add new wmployee</h2>
+@using(Html.BeginForm()){
+    @Html.AntiForgeryToken()
+    @Html.EditorForModel()
+    <p>
+        <button type="submit">Create employee</button>
+    </p>
+}
+
+
+
+<p style="color:red;">
+    @ViewBag.Message
+</p>
+
+<script>
+    
+    function addNestedForm(container, counter, ticks, content) {
+        var nextIndex = $(counter).length;
+        var pattern = new RegExp(ticks, "gi");
+        content = content.replace(pattern, nextIndex);
+        $(container).append(content);
+    }
+</script>

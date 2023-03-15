@@ -1,0 +1,117 @@
+﻿@model PruebaAyu.Models.Beneficio
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Beneficio</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lastname" class="control-label"></label>
+                <input asp-for="Lastname" class="form-control" />
+                <span asp-validation-for="Lastname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            
+            <div id="divAnexos">
+
+               
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+
+        
+
+
+        <!-- Button trigger modal -->
+        <button type="button" id="btnShowModal" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Launch static backdrop modal
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <div class="form-group" id="inputsContainer">
+                            <input type="file" name="nextAnexoFile" class="form-control" />
+                            <input type="text" name="nextAnexoFilType" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="cerrarModal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" id="btnAddAnexo" class="btn btn-primary">Anexar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        var noOfAnexos = 0;
+        var prefijoModelo = "Anexos";
+        var anexoName ='';
+
+
+
+        function setNestedItemName(prefijoModelo, noOfAnexos) {
+            anexoName = prefijoModelo+"["+noOfAnexos+"]";
+        }
+
+        (function () {
+
+            $("#btnAddAnexo").click(function () {
+
+                setNestedItemName(prefijoModelo, noOfAnexos);
+                
+                var file = $("[name=nextAnexoFile")[0];
+                var type = $("[name=nextAnexoFilType")[0];
+
+                $(file).appendTo("#divAnexos");
+                $(type).appendTo("#divAnexos");
+                file.name = anexoName + ".File";
+                type.name = anexoName + ".TipoId";
+                $("#cerrarModal").trigger('click');
+
+                $("#inputsContainer").html("<input type='file' name='nextAnexoFile' class='form-control' />");
+                $("#inputsContainer").append("<input type='text' name='nextAnexoFilType' class='form-control' />");
+
+                noOfAnexos++;
+
+            });
+
+        })();
+    </script>
+}
