@@ -103,6 +103,10 @@
                 $(type).appendTo("#divAnexos");
                 file.name = anexoName + ".File";
                 type.name = anexoName + ".TipoId";
+
+                $(file).addClass("hiddenElement");
+                $(type).addClass("hiddenElement");
+
                 $("#cerrarModal").trigger('click');
 
                 $("#inputsContainer").html("<input type='file' name='nextAnexoFile' class='form-control' />");
