@@ -54,15 +54,36 @@ namespace PruebaAyu.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm]Beneficio beneficio)
+        public IActionResult Create([FromForm] Beneficio beneficio)
         {
+
+
             if (ModelState.IsValid)
             {
-                _context.Add(beneficio);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                using (var ms = new MemoryStream())
+                {
+                    var file = beneficio.Anexos.First().File;
+                    file.CopyTo(ms);
+                    var fileBytes = ms.ToArray();
+                    return File(fileBytes, file.ContentType);
+                }
+                //_context.Add(beneficio);
+                //await _context.SaveChangesAsync();
+                //return RedirectToAction(nameof(Index));
             }
             return View(beneficio);
+        }
+
+        public IActionResult ViewDocument(IFormFile file)
+        {
+
+            using (var ms = new MemoryStream())
+            {
+                file.CopyTo(ms);
+                var fileBytes = ms.ToArray();
+                string s = Convert.ToBase64String(fileBytes);
+                return new FileStreamResult(file.OpenReadStream(), file.ContentType);
+            }
         }
 
         // GET: Beneficios/Edit/5
